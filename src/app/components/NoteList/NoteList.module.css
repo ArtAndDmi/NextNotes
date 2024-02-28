@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 95%;
+}
+
+.container h1 {
+    text-align: center;
+    width: 100%;
+}

@@ -1,0 +1,30 @@
+.container {
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    width: 70%;
+    padding: 5px 20px;
+    border-radius: 1000px;
+    margin-left: 10px;
+    height: 44px;
+    box-sizing: border-box;
+    cursor: text;
+    transition: .2s;
+}
+
+.input {
+    width: calc(100% - 30px);
+    background-color: black;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 20px;
+}
+
+@media (max-width: 722px) {
+    .container {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+

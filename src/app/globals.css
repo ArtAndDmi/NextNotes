@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Fredoka:wght@300&family=Nunito:wght@300&family=Roboto&display=swap');
+
+:root {
+    --background: #000;
+    --font-color: #fff;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--font-color);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

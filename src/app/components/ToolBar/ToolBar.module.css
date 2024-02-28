@@ -1,0 +1,28 @@
+.container {
+    width: 95%;
+    border-bottom: 1px solid #606060;
+    margin-bottom: 20px;
+    display: flex;
+    height: 100px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    
+    /*border: 1px solid red;*/
+}
+
+@media (max-width: 722px) {
+    .container {
+        flex-direction: column-reverse;
+        align-items: start;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+
+
+    .selectContainer {
+        position: absolute;
+        right: 0;
+    }
+}

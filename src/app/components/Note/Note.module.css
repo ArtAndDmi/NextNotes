@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 320px;
+    cursor: pointer;
+}
+
+.note {
+    background-image: repeating-linear-gradient(
+            0deg,
+            #797979,
+            #ffffff 1px,
+            #ffffff 40px
+    );
+    height: 320px;
+    border-radius: 10px;
+    width: 320px;
+    overflow: hidden;
+    transition: .2s;
+}
+
+.container:hover div p {
+    transition: .2s;
+    color: #0a248c;
+}
+
+.noteBody {
+    color: black;
+    line-height: 40px;
+    margin: 0;
+    padding: 10px 5px 0 5px;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+}
+
+.noteTitle {
+    text-align: center;
+    margin: 10px 0;
+}
