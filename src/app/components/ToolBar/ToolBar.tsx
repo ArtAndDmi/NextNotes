@@ -46,10 +46,14 @@ const ToolBar = ({setSearchValue, getData, notesCount}: Props) => {
     ]
 
     const addNote = async () => {
+        const [day, month, year] = [`${new Date().getUTCDay()}`, `${new Date().getMonth()}`, `${new Date().getFullYear()}`]
+
         await axios.post('http://localhost:3000/notes', {
             id: `${notesCount + 1}`,
             title: 'untitled',
-            body: ''
+            body: '',
+            created_at: `${day.length === 1 ? '0' + day : day}-${month.length === 1 ? '0' + month : month}-${year.length === 1 ? '0' + year : year}`,
+            updated_at: '-'
         })
         getData()
     }

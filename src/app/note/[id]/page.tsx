@@ -27,13 +27,13 @@ const NotePage = ({params}: { params: { id: string } }) => {
     }
 
     const saveNote = async () => {
-        const [day, mounth, year] = [`${new Date().getUTCDay()}`, `${new Date().getMonth()}`, `${new Date().getFullYear()}`]
+        const [day, month, year] = [`${new Date().getUTCDay()}`, `${new Date().getMonth()}`, `${new Date().getFullYear()}`]
         console.log()
         try {
             await axios.put('http://localhost:3000/notes/' + params.id, {
                 title: title.length === 0 ? 'untitled' : title,
                 body: body,
-                updated_at: `${day.length === 1 ? '0' + day : day}-${mounth.length === 1 ? '0' + mounth : mounth}-${year.length === 1 ? '0' + year : year}`,
+                updated_at: `${day.length === 1 ? '0' + day : day}-${month.length === 1 ? '0' + month : month}-${year.length === 1 ? '0' + year : year}`,
                 created_at: createdAt
             })
             await getNote()
