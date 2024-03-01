@@ -1,22 +1,21 @@
 'use client'
 
 import classes from './ToolBar.module.css'
-import PlusIcon from "@/app/svg/PlusIcon"
-import Button from "@/app/UI/Button/Button"
-import Input from "@/app/UI/Input/Input"
+import PlusIcon from "@/svg/PlusIcon"
+import Button from "@/UI/Button/Button"
+import Input from "@/UI/Input/Input"
 import React, {Dispatch, SetStateAction, useState} from "react"
 import axios from "axios"
-import Select from "@/app/UI/Select/Select"
+import Select from "@/UI/Select/Select"
 import {useDispatch, useSelector} from "react-redux"
-import {filterAction, searchAction} from "@/app/store/reducer"
+import {filterAction, searchAction} from "@/store/reducer"
 
 
 type Props = {
-    setSearchValue: Dispatch<SetStateAction<string>>
     getData: () => void
     notesCount: number
 }
-const ToolBar = ({setSearchValue, getData, notesCount}: Props) => {
+const ToolBar = ({getData, notesCount}: Props) => {
     const [inputValue, setInputValue] = useState(useSelector((state: {searchValue: string}) => state.searchValue))
     const dispatch = useDispatch()
 
@@ -24,7 +23,6 @@ const ToolBar = ({setSearchValue, getData, notesCount}: Props) => {
 
         if (e.target) {
             setInputValue(e.target.value)
-            setSearchValue(e.target.value)
             dispatch(searchAction(e.target.value))
 
         }

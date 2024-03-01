@@ -1,10 +1,10 @@
 import classes from './Note.module.css'
-import {NoteType} from "@/app/types"
+import type {TNote} from "@/app/types"
 import {useEffect, useRef, useState} from "react"
 import { useRouter } from 'next/navigation'
 
 type Props = {
-    note: NoteType
+    note: TNote
 }
 const Note = ({note}: Props) => {
     const titleRef = useRef<HTMLSpanElement>(null)

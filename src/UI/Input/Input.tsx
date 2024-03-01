@@ -1,7 +1,7 @@
 'use client'
 
 import classes from './Input.module.css'
-import SearchIcon from "@/app/svg/SearchIcon"
+import SearchIcon from "@/svg/SearchIcon"
 import React, {useRef, useState} from "react"
 
 

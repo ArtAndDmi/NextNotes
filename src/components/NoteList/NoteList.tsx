@@ -1,26 +1,20 @@
-import classes from './NotePageContent.module.css'
-import {useEffect, useState} from "react"
-import {NoteType} from "@/app/types"
+'use client'
+
+import classes from './NoteList.module.css'
+import Note from "@/components/Note/Note"
+import type {TNote} from "@/app/types"
 import {useSelector} from "react-redux"
-import ToolBar from "@/app/components/ToolBar/ToolBar"
-import NoteList from "@/app/components/NoteList/NoteList"
-import axios from "axios"
+import {useEffect, useState} from "react"
 
-const NotePageContent = () => {
-    const [notes, setNotes] = useState<NoteType[]>([])
-    const [sortedNotes, setSortedNotes] = useState<NoteType[]>([])
-    const [searchValue, setSearchValue] = useState('')
-    const activeSort = useSelector((state: { activeFilter: string }) => state.activeFilter)
 
-    const getData = async () => {
-        const res = await axios.get('http://localhost:3000/notes')
-        setNotes(res.data)
-        setSortedNotes(res.data)
-    }
+type Props = {
+    notes: TNote[]
+}
+const NoteList = ({notes}: Props) => {
+    const [sortedNotes, setSortedNotes] = useState<TNote[]>(notes)
+    const searchValue = useSelector((state: {searchValue: string}) => state.searchValue)
+    const activeSort =  useSelector((state: { activeFilter: string }) => state.activeFilter)
 
-    useEffect(() => {
-        getData()
-    }, [])
 
     useEffect(() => {
         if (activeSort === 'name') {
@@ -56,15 +50,18 @@ const NotePageContent = () => {
         }
 
     }, [searchValue, activeSort])
-
     return (
         <div className={classes.container}>
-            <ToolBar setSearchValue={setSearchValue} getData={getData} notesCount={notes.length}/>
-            <NoteList notes={sortedNotes}/>
+            {
+                sortedNotes.length ?
+                    sortedNotes.map(note => (
+                        <Note note={note} key={note.id}/>
+                    ))
+                    :
+                    <h1>Not found :(</h1>
+            }
         </div>
     )
 }
 
-
-export default NotePageContent
-
+export default NoteList

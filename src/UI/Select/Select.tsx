@@ -35,7 +35,7 @@ const Select = ({options, initialValue}: Props) => {
         <div onClick={showOptions} className={classes.container}>
             <span>{initialValue}</span>
             <div className={classes.options} ref={optionsRef}>
-                {isOptionsVisible && options.filter(option => option.name !== initialValue).map(option => <p className={classes.option} onClick={option.fn}>{option.name}</p>)}
+                {isOptionsVisible && options.filter(option => option.name !== initialValue).map(option => <p className={classes.option} onClick={option.fn} key={option.name}>{option.name}</p>)}
 
             </div>
         </div>

@@ -2,9 +2,9 @@
 
 import React, {useEffect, useState} from 'react'
 import classes from './NotePage.module.css'
-import axios from "axios"
 import {useRouter} from "next/navigation"
-import BackArrowIcon from "@/app/svg/BackArrowIcon"
+import BackArrowIcon from "@/svg/BackArrowIcon"
+import {NoteController} from "@/controllers/Note.controller"
 
 const NotePage = ({params}: { params: { id: string } }) => {
     const [title, setTitle] = useState('')
@@ -28,14 +28,16 @@ const NotePage = ({params}: { params: { id: string } }) => {
 
     const saveNote = async () => {
         const [day, month, year] = [`${new Date().getUTCDay()}`, `${new Date().getMonth()}`, `${new Date().getFullYear()}`]
-        console.log()
+        const newNote = {
+            title: title.length === 0 ? 'untitled' : title,
+            body: body,
+            updated_at: `${day.length === 1 ? '0' + day : day}-${month.length === 1 ? '0' + month : month}-${year.length === 1 ? '0' + year : year}`,
+            created_at: createdAt,
+            id: params.id
+        }
+
         try {
-            await axios.put('http://localhost:3000/notes/' + params.id, {
-                title: title.length === 0 ? 'untitled' : title,
-                body: body,
-                updated_at: `${day.length === 1 ? '0' + day : day}-${month.length === 1 ? '0' + month : month}-${year.length === 1 ? '0' + year : year}`,
-                created_at: createdAt
-            })
+            await NoteController.rewriteOne(params.id, newNote)
             await getNote()
             setIsSaved(true)
         } catch (e) {
@@ -45,7 +47,7 @@ const NotePage = ({params}: { params: { id: string } }) => {
 
     const deleteNote = async () => {
         try {
-            await axios.delete('http://localhost:3000/notes/' + params.id)
+            await NoteController.deleteOne(params.id)
             router.back()
         } catch (e) {
             console.log(e)
@@ -53,15 +55,17 @@ const NotePage = ({params}: { params: { id: string } }) => {
     }
 
     const getNote = async () => {
-        const res = await axios.get('http://localhost:3000/notes?id=' + params.id)
+        const res = await NoteController.getOne(params.id)
         setTitle(res.data[0].title)
         setBody(res.data[0].body)
         setCreatedAt(res.data[0].created_at)
         setUpdatedAt(res.data[0].updated_at)
     }
+
     useEffect(() => {
         getNote()
     }, [])
+
     return (
         <div className={classes.container}>
             <div className={classes.topElements}>

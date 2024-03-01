@@ -1,7 +1,7 @@
-export type NoteType = {
+export type TNote = {
     title: string,
     body: string,
-    id: number,
+    id: string,
     created_at: string,
     updated_at: string
 }
