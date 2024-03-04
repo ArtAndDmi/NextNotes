@@ -9,12 +9,12 @@ const getData = async () => {
 }
 
 const NotePageContent = async () => {
-    const notes= await getData()
+    let notes= await getData()
+
 
     return (
         <div className={classes.container}>
-
-            <ToolBar getData={getData} notesCount={notes.length}/>
+            <ToolBar notesCount={notes.length}/>
             <NoteList notes={notes}/>
         </div>
     )

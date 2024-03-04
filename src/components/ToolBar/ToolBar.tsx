@@ -4,20 +4,26 @@ import classes from './ToolBar.module.css'
 import PlusIcon from "@/svg/PlusIcon"
 import Button from "@/UI/Button/Button"
 import Input from "@/UI/Input/Input"
-import React, {Dispatch, SetStateAction, useState} from "react"
-import axios from "axios"
+import React, {useEffect, useState} from "react"
 import Select from "@/UI/Select/Select"
 import {useDispatch, useSelector} from "react-redux"
-import {filterAction, searchAction} from "@/store/reducer"
+import {filterAction, searchAction, updateAction} from "@/store/reducer"
+import {NoteController} from "@/controllers/Note.controller"
 
 
-type Props = {
-    getData: () => void
-    notesCount: number
-}
-const ToolBar = ({getData, notesCount}: Props) => {
-    const [inputValue, setInputValue] = useState(useSelector((state: {searchValue: string}) => state.searchValue))
+
+const ToolBar = () => {
+    const [inputValue, setInputValue] = useState(useSelector((state: { searchValue: string }) => state.searchValue))
     const dispatch = useDispatch()
+    const [notesCount, setNotesCount] = useState(0)
+
+    useEffect(() => {
+         const getData = async () => {
+             const {data} = await NoteController.getAll()
+             setNotesCount(data.length)
+         }
+         getData()
+    }, [])
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -43,22 +49,23 @@ const ToolBar = ({getData, notesCount}: Props) => {
         },
     ]
 
-    const addNote = async () => {
+
+    const onClick = async () => {
         const [day, month, year] = [`${new Date().getUTCDay()}`, `${new Date().getMonth()}`, `${new Date().getFullYear()}`]
 
-        await axios.post('http://localhost:3000/notes', {
+        const newPost = {
             id: `${notesCount + 1}`,
             title: 'untitled',
             body: '',
             created_at: `${day.length === 1 ? '0' + day : day}-${month.length === 1 ? '0' + month : month}-${year.length === 1 ? '0' + year : year}`,
             updated_at: '-'
-        })
-        getData()
-    }
-
-    const onClick = () => {
+        }
         try {
-             addNote()
+            await NoteController.addOne(newPost)
+            dispatch(updateAction())
+            setNotesCount(notesCount + 1)
+
+
         } catch (e) {
             console.log(e)
         }
@@ -76,7 +83,8 @@ const ToolBar = ({getData, notesCount}: Props) => {
                 onChange={onChange}
             />
             <div className={classes.selectContainer}>
-                <Select options={options} initialValue={useSelector((state: {activeFilter: string}) => state.activeFilter)}/>
+                <Select options={options}
+                        initialValue={useSelector((state: { activeFilter: string }) => state.activeFilter)}/>
             </div>
         </div>
     )

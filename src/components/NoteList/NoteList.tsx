@@ -5,6 +5,7 @@ import Note from "@/components/Note/Note"
 import type {TNote} from "@/app/types"
 import {useSelector} from "react-redux"
 import {useEffect, useState} from "react"
+import {NoteController} from "@/controllers/Note.controller"
 
 
 type Props = {
@@ -12,9 +13,18 @@ type Props = {
 }
 const NoteList = ({notes}: Props) => {
     const [sortedNotes, setSortedNotes] = useState<TNote[]>(notes)
-    const searchValue = useSelector((state: {searchValue: string}) => state.searchValue)
-    const activeSort =  useSelector((state: { activeFilter: string }) => state.activeFilter)
+    const searchValue = useSelector((state: { searchValue: string }) => state.searchValue)
+    const activeSort = useSelector((state: { activeFilter: string }) => state.activeFilter)
+    const needToUpdate = useSelector((state: { needToUpdate: boolean }) => state.needToUpdate)
 
+
+    useEffect(() => {
+        const getNotes = async () => {
+            const {data} = await NoteController.getAll()
+            setSortedNotes(data)
+        }
+        getNotes()
+    }, [needToUpdate])
 
     useEffect(() => {
         if (activeSort === 'name') {

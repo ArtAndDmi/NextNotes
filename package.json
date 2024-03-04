@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"next dev -p 8080\" \"json-server --watch server/db.json --port 3000\"",
     "build": "next build",
-    "start": "next start -p 8080",
+    "start": "next dev -p 8080",
     "lint": "next lint"
   },
   "dependencies": {
